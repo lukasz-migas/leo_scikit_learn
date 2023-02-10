@@ -187,13 +187,15 @@ cdef class Splitter:
         self.start = start
         self.end = end
 
+        # Leo make change here: add neighbourhood_order_matrix to parameters when initializing the criterion
         self.criterion.init(
             self.y,
             self.sample_weight,
             self.weighted_n_samples,
             self.samples,
             start,
-            end
+            end, 
+            self.neighborhood_order_matrix=None # change here
         )
 
         weighted_n_node_samples[0] = self.criterion.weighted_n_node_samples
