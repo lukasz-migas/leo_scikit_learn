@@ -51,6 +51,8 @@ cdef class Criterion:
         const SIZE_t[:] sample_indices,
         SIZE_t start,
         SIZE_t end,
+        const SIZE_t[:, :] neighborhood_order_matrix # change (declare 2D array)
+        #np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
     ) nogil except -1:
         """Placeholder for a method which will initialize the criterion.
 
@@ -258,7 +260,8 @@ cdef class ClassificationCriterion(Criterion):
         double weighted_n_samples,
         const SIZE_t[:] sample_indices,
         SIZE_t start,
-        SIZE_t end
+        SIZE_t end, 
+        const SIZE_t[:, :] neighborhood_order_matrix # change
     ) nogil except -1:
         """Initialize the criterion.
 
@@ -289,6 +292,7 @@ cdef class ClassificationCriterion(Criterion):
         self.sample_indices = sample_indices
         self.start = start
         self.end = end
+        self.neighborhood_order_matrix = neighborhood_order_matrix # change
         self.n_node_samples = end - start
         self.weighted_n_samples = weighted_n_samples
         self.weighted_n_node_samples = 0.0
@@ -558,15 +562,15 @@ cdef class Gini(ClassificationCriterion):
 
             for c in range(self.n_classes[k]):
                 count_k = self.sum_total[k, c]
-                if self.neighborhood_order_matrix is None: 
-                    mean_neighborhood_order = 1 
-                else:
-                    list_index_pairs = list(combinations(self.sample_indices[self.start:self.end], 2))
-                    mean_neighborhood_order = 0
-                    for pair in list_index_pairs:
-                        mean_neighborhood_order += self.neighborhood_order_matrix[pair]
-                        mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs)
-                sq_count += (1/mean_neighborhood_order) * count_k * count_k
+                if self.neighborhood_order_matrix is None: # change
+                    mean_neighborhood_order = 1 # change
+                else: # change
+                    list_index_pairs = list(combinations(self.sample_indices[self.start:self.end], 2)) # change
+                    mean_neighborhood_order = 0 # change
+                    for pair in list_index_pairs: # change
+                        mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
+                        mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change
+                sq_count += (1/mean_neighborhood_order) * count_k * count_k # change
 
             gini += 1.0 - sq_count / (self.weighted_n_node_samples *
                                       self.weighted_n_node_samples)
@@ -602,27 +606,27 @@ cdef class Gini(ClassificationCriterion):
             for c in range(self.n_classes[k]):
                 # Left child node
                 count_k = self.sum_left[k, c]
-                if self.neighborhood_order_matrix is None: 
-                    mean_neighborhood_order = 1 
-                else:
-                    list_index_pairs = list(combinations(self.sample_indices[self.start:self.pos], 2))
-                    mean_neighborhood_order = 0
-                    for pair in list_index_pairs:
-                        mean_neighborhood_order += self.neighborhood_order_matrix[pair]
-                        mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs)                
-                sq_count_left += (1/mean_neighborhood_order) * count_k * count_k
+                if self.neighborhood_order_matrix is None: # change
+                    mean_neighborhood_order = 1 # change
+                else: # change
+                    list_index_pairs = list(combinations(self.sample_indices[self.start:self.pos], 2)) # change
+                    mean_neighborhood_order = 0 # change
+                    for pair in list_index_pairs: # change
+                        mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
+                        mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change            
+                sq_count_left += (1/mean_neighborhood_order) * count_k * count_k # change
                 
                 # Right child node
                 count_k = self.sum_right[k, c]
-                if self.neighborhood_order_matrix is None: 
-                    mean_neighborhood_order = 1 
-                else:
-                    list_index_pairs = list(combinations(self.sample_indices[self.pos:self.end], 2))
-                    mean_neighborhood_order = 0
-                    for pair in list_index_pairs:
-                        mean_neighborhood_order += self.neighborhood_order_matrix[pair]
-                        mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs)                   
-                sq_count_right += count_k * count_k
+                if self.neighborhood_order_matrix is None: # change
+                    mean_neighborhood_order = 1 # change
+                else: # change
+                    list_index_pairs = list(combinations(self.sample_indices[self.pos:self.end], 2)) # change
+                    mean_neighborhood_order = 0 # change
+                    for pair in list_index_pairs: # change
+                        mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
+                        mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change                 
+                sq_count_right += (1/mean_neighborhood_order) * count_k * count_k # change
 
             gini_left += 1.0 - sq_count_left / (self.weighted_n_left *
                                                 self.weighted_n_left)
