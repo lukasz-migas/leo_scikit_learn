@@ -262,6 +262,7 @@ cdef class ClassificationCriterion(Criterion):
         SIZE_t start,
         SIZE_t end, 
         const SIZE_t[:, :] neighborhood_order_matrix # change
+        # Add log_base ???? 
     ) nogil except -1:
         """Initialize the criterion.
 
@@ -550,6 +551,8 @@ cdef class Gini(ClassificationCriterion):
         cdef SIZE_t k
         cdef SIZE_t c
 
+        log_base = 5 # hyperparameter
+        
         for k in range(self.n_outputs):
             sq_count = 0.0
 
@@ -563,7 +566,7 @@ cdef class Gini(ClassificationCriterion):
             for c in range(self.n_classes[k]):
                 count_k = self.sum_total[k, c]
                 if self.neighborhood_order_matrix is None: # change
-                    mean_neighborhood_order = 1 # change
+                    mean_neighborhood_order = log_base - 1 # change
                 else: # change
                     list_index_pairs = list(combinations(self.sample_indices[self.start:self.end], 2)) # change
                     mean_neighborhood_order = 0 # change
@@ -571,7 +574,7 @@ cdef class Gini(ClassificationCriterion):
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change
                 #sq_count += (1/mean_neighborhood_order) * count_k * count_k # change
-                sq_count += (1/log(1+mean_neighborhood_order,5)) * count_k * count_k # change
+                sq_count += (1/log(1+mean_neighborhood_order,log_base)) * count_k * count_k # change
 
             gini += 1.0 - sq_count / (self.weighted_n_node_samples *
                                       self.weighted_n_node_samples)
@@ -600,6 +603,7 @@ cdef class Gini(ClassificationCriterion):
         cdef SIZE_t k
         cdef SIZE_t c
 
+        log_base = 5 # hyperparameter
         for k in range(self.n_outputs):
             sq_count_left = 0.0
             sq_count_right = 0.0
@@ -608,7 +612,7 @@ cdef class Gini(ClassificationCriterion):
                 # Left child node
                 count_k = self.sum_left[k, c]
                 if self.neighborhood_order_matrix is None: # change
-                    mean_neighborhood_order = 1 # change
+                    mean_neighborhood_order = log_base - 1 # change
                 else: # change
                     list_index_pairs = list(combinations(self.sample_indices[self.start:self.pos], 2)) # change
                     mean_neighborhood_order = 0 # change
@@ -616,12 +620,12 @@ cdef class Gini(ClassificationCriterion):
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change            
                 #sq_count_left += (1/mean_neighborhood_order) * count_k * count_k # change
-                sq_count_left += (1/log(1+mean_neighborhood_order,5)) * count_k * count_k # change
+                sq_count_left += (1/log(1+mean_neighborhood_order,log_base)) * count_k * count_k # change
                 
                 # Right child node
                 count_k = self.sum_right[k, c]
                 if self.neighborhood_order_matrix is None: # change
-                    mean_neighborhood_order = 1 # change
+                    mean_neighborhood_order = log_base - 1 # change
                 else: # change
                     list_index_pairs = list(combinations(self.sample_indices[self.pos:self.end], 2)) # change
                     mean_neighborhood_order = 0 # change
@@ -629,7 +633,7 @@ cdef class Gini(ClassificationCriterion):
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change                 
                 #sq_count_right += (1/mean_neighborhood_order) * count_k * count_k # change
-                sq_count_right += (1/log(1+mean_neighborhood_order,5)) * count_k * count_k # change
+                sq_count_right += (1/log(1+mean_neighborhood_order,log_base)) * count_k * count_k # change
 
             gini_left += 1.0 - sq_count_left / (self.weighted_n_left *
                                                 self.weighted_n_left)
