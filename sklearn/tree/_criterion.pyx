@@ -570,7 +570,8 @@ cdef class Gini(ClassificationCriterion):
                     for pair in list_index_pairs: # change
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change
-                sq_count += (1/mean_neighborhood_order) * count_k * count_k # change
+                #sq_count += (1/mean_neighborhood_order) * count_k * count_k # change
+                sq_count += (1/log(1+mean_neighborhood_order,5)) * count_k * count_k # change
 
             gini += 1.0 - sq_count / (self.weighted_n_node_samples *
                                       self.weighted_n_node_samples)
@@ -614,7 +615,8 @@ cdef class Gini(ClassificationCriterion):
                     for pair in list_index_pairs: # change
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change            
-                sq_count_left += (1/mean_neighborhood_order) * count_k * count_k # change
+                #sq_count_left += (1/mean_neighborhood_order) * count_k * count_k # change
+                sq_count_left += (1/log(1+mean_neighborhood_order,5)) * count_k * count_k # change
                 
                 # Right child node
                 count_k = self.sum_right[k, c]
@@ -626,7 +628,8 @@ cdef class Gini(ClassificationCriterion):
                     for pair in list_index_pairs: # change
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change                 
-                sq_count_right += (1/mean_neighborhood_order) * count_k * count_k # change
+                #sq_count_right += (1/mean_neighborhood_order) * count_k * count_k # change
+                sq_count_right += (1/log(1+mean_neighborhood_order,5)) * count_k * count_k # change
 
             gini_left += 1.0 - sq_count_left / (self.weighted_n_left *
                                                 self.weighted_n_left)
