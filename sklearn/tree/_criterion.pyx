@@ -603,7 +603,7 @@ cdef class Gini(ClassificationCriterion):
         cdef SIZE_t k
         cdef SIZE_t c
 
-        log_base = 5 # hyperparameter
+        log_base = 10 # hyperparameter
         for k in range(self.n_outputs):
             sq_count_left = 0.0
             sq_count_right = 0.0
