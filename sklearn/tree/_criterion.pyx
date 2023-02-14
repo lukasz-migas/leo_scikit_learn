@@ -51,8 +51,8 @@ cdef class Criterion:
         const SIZE_t[:] sample_indices,
         SIZE_t start,
         SIZE_t end,
-        const SIZE_t[:, :] neighborhood_order_matrix # change (declare 2D array)
-        #np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
+        #const SIZE_t[:, :] neighborhood_order_matrix # change (declare 2D array)
+        np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
     ) nogil except -1:
         """Placeholder for a method which will initialize the criterion.
 
@@ -551,7 +551,7 @@ cdef class Gini(ClassificationCriterion):
         cdef SIZE_t k
         cdef SIZE_t c
 
-        log_base = 5 # hyperparameter
+        log_base = 10 # hyperparameter
         
         for k in range(self.n_outputs):
             sq_count = 0.0
