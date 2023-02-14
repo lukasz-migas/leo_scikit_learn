@@ -560,8 +560,7 @@ cdef class Gini(ClassificationCriterion):
 #                count_k = self.sum_total[k, c]
 #                sq_count += count_k * count_k
 #
-#            gini += 1.0 - sq_count / (self.weighted_n_node_samples *
-                                      self.weighted_n_node_samples)
+#            gini += 1.0 - sq_count / (self.weighted_n_node_samples * self.weighted_n_node_samples)
 
             for c in range(self.n_classes[k]):
                 count_k = self.sum_total[k, c]
@@ -576,8 +575,7 @@ cdef class Gini(ClassificationCriterion):
                 #sq_count += (1/mean_neighborhood_order) * count_k * count_k # change
                 sq_count += (1/log(1+mean_neighborhood_order,log_base)) * count_k * count_k # change
 
-            gini += 1.0 - sq_count / (self.weighted_n_node_samples *
-                                      self.weighted_n_node_samples)
+            gini += 1.0 - sq_count / (self.weighted_n_node_samples * self.weighted_n_node_samples)
             
         return gini / self.n_outputs
 
@@ -635,11 +633,9 @@ cdef class Gini(ClassificationCriterion):
                 #sq_count_right += (1/mean_neighborhood_order) * count_k * count_k # change
                 sq_count_right += (1/log(1+mean_neighborhood_order,log_base)) * count_k * count_k # change
 
-            gini_left += 1.0 - sq_count_left / (self.weighted_n_left *
-                                                self.weighted_n_left)
+            gini_left += 1.0 - sq_count_left / (self.weighted_n_left * self.weighted_n_left)
 
-            gini_right += 1.0 - sq_count_right / (self.weighted_n_right *
-                                                  self.weighted_n_right)
+            gini_right += 1.0 - sq_count_right / (self.weighted_n_right * self.weighted_n_right)
 
         impurity_left[0] = gini_left / self.n_outputs
         impurity_right[0] = gini_right / self.n_outputs
