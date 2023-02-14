@@ -195,7 +195,8 @@ cdef class Splitter:
             self.samples,
             start,
             end, 
-            self.neighborhood_order_matrix=None # change here
+            self.neighborhood_order_matrix
+            #self.neighborhood_order_matrix=None # change here
         )
 
         weighted_n_node_samples[0] = self.criterion.weighted_n_node_samples
