@@ -568,7 +568,7 @@ cdef class Gini(ClassificationCriterion):
                     mean_neighborhood_order = log_base - 1 # change
                 else: # change
                     list_index_pairs = list(combinations(self.sample_indices[self.start:self.end], 2)) # change
-                    mean_neighborhood_order = 0 # change
+                    mean_neighborhood_order = 0.0 # change
                     for pair in list_index_pairs: # change
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change
@@ -626,7 +626,7 @@ cdef class Gini(ClassificationCriterion):
                     mean_neighborhood_order = log_base - 1 # change
                 else: # change
                     list_index_pairs = list(combinations(self.sample_indices[self.pos:self.end], 2)) # change
-                    mean_neighborhood_order = 0 # change
+                    mean_neighborhood_order = 0.0 # change
                     for pair in list_index_pairs: # change
                         mean_neighborhood_order += self.neighborhood_order_matrix[pair] # change
                         mean_neighborhood_order = mean_neighborhood_order/len(list_index_pairs) # change                 
