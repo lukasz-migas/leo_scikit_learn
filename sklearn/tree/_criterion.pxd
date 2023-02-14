@@ -50,7 +50,8 @@ cdef class Criterion:
         const SIZE_t[:] sample_indices,
         SIZE_t start,
         SIZE_t end, 
-        const SIZE_t[:, :] neighborhood_order_matrix # change
+        #const SIZE_t[:, :] neighborhood_order_matrix # change
+        np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
     ) nogil except -1
     cdef int reset(self) nogil except -1
     cdef int reverse_reset(self) nogil except -1
