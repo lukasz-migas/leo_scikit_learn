@@ -51,8 +51,9 @@ cdef class Criterion:
         const SIZE_t[:] sample_indices,
         SIZE_t start,
         SIZE_t end,
-        #const SIZE_t[:, :] neighborhood_order_matrix # change (declare 2D array)
-        np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
+        const DOUBLE_t[:, :] neighborhood_order_matrix, # declare 2D array of floats
+        SIZE_t log_base # declare iinteger variable
+        #np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
     ) nogil except -1:
         """Placeholder for a method which will initialize the criterion.
 
