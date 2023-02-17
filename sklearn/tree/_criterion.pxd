@@ -29,7 +29,10 @@ cdef class Criterion:
     cdef SIZE_t pos                      # samples[pos:end] are the samples in the right node
     cdef SIZE_t end
 
-    cdef SIZE_t[:, :] neighborhood_order_matrix # 2D matrix # change 
+    #cdef SIZE_t[:, :] neighborhood_order_matrix # 2D matrix # change 
+    cdef const DOUBLE_t[:, :] neighborhood_order_matrix # change
+    cdef SIZE_t log_base # change
+    
     cdef SIZE_t n_outputs                # Number of outputs
     cdef SIZE_t n_samples                # Number of samples
     cdef SIZE_t n_node_samples           # Number of samples in the node (end-start)
@@ -49,9 +52,11 @@ cdef class Criterion:
         double weighted_n_samples,
         const SIZE_t[:] sample_indices,
         SIZE_t start,
-        SIZE_t end, 
+        SIZE_t end,
+        const DOUBLE_t[:, :] neighborhood_order_matrix # change
+        SIZE_t log_base # change
         #const SIZE_t[:, :] neighborhood_order_matrix # change
-        np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
+        #np.ndarray[np.float64_t, ndim=2] neighborhood_order_matrix
     ) nogil except -1
     cdef int reset(self) nogil except -1
     cdef int reverse_reset(self) nogil except -1
