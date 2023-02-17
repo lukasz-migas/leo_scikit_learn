@@ -134,6 +134,8 @@ class BaseDecisionTree(MultiOutputMixin, BaseEstimator, metaclass=ABCMeta):
         min_impurity_decrease,
         class_weight=None,
         ccp_alpha=0.0,
+        neighborhood_order_matrix = None, 
+        log_base = None
     ):
         self.criterion = criterion
         self.splitter = splitter
@@ -147,6 +149,8 @@ class BaseDecisionTree(MultiOutputMixin, BaseEstimator, metaclass=ABCMeta):
         self.min_impurity_decrease = min_impurity_decrease
         self.class_weight = class_weight
         self.ccp_alpha = ccp_alpha
+        self.neighborhood_order_matrix = neighborhood_order_matrix
+        self.log_base = log_base
 
     def get_depth(self):
         """Return the depth of the decision tree.
